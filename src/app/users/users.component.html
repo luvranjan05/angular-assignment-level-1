@@ -1,5 +1,6 @@
 <h2>Users Table</h2>
 
+
 <div class="search-container">
   <input 
     type="text" 
@@ -17,26 +18,30 @@
   </button>
 </div>
 
-
-<div *ngIf="!loading" class="results-info">
-  Showing {{filteredUsers.length}} of {{users.length}} users
-  <span *ngIf="searchTerm">for "{{searchTerm}}"</span>
-</div>
-
 <div *ngIf="loading" class="loading">Loading...</div>
 
-<table *ngIf="!loading" class="users-table">
+<table *ngIf="!loading && paginatedUsers.length > 0" class="users-table">
   <thead>
     <tr>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Age</th>
-      <th>Email</th>
-      <th>Website</th>
+      <th (click)="onSort('first_name')" class="sortable">
+        First Name {{getSortIcon('first_name')}}
+      </th>
+      <th (click)="onSort('last_name')" class="sortable">
+        Last Name {{getSortIcon('last_name')}}
+      </th>
+      <th (click)="onSort('age')" class="sortable">
+        Age {{getSortIcon('age')}}
+      </th>
+      <th (click)="onSort('email')" class="sortable">
+        Email {{getSortIcon('email')}}
+      </th>
+      <th (click)="onSort('web')" class="sortable">
+        Website {{getSortIcon('web')}}
+      </th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let user of filteredUsers">
+    <tr *ngFor="let user of paginatedUsers">
       <td>
         <a [routerLink]="['/users', user.id]" class="user-link">
           {{ user.first_name }}
@@ -54,4 +59,40 @@
 <div *ngIf="!loading && filteredUsers.length === 0 && searchTerm" class="no-results">
   No users found matching "{{searchTerm}}"
   <button (click)="clearSearch()" class="show-all-btn">Show all users</button>
+</div>
+
+
+<div *ngIf="!loading && filteredUsers.length > 0 && totalPages > 1" class="pagination">
+  <button 
+    (click)="previousPage()" 
+    [disabled]="isPreviousDisabled()"
+    class="pagination-btn"
+  >
+    ← Previous
+  </button>
+
+  <div class="page-numbers">
+    <button 
+      *ngFor="let page of pages" 
+      (click)="goToPage(page)"
+      [class.active]="page === currentPage"
+      class="page-btn"
+    >
+      {{ page }}
+    </button>
+  </div>
+
+  <button 
+    (click)="nextPage()" 
+    [disabled]="isNextDisabled()"
+    class="pagination-btn"
+  >
+    Next →
+  </button>
+</div>
+
+
+<div *ngIf="!loading && filteredUsers.length > 0" class="page-info">
+  Page {{currentPage}} of {{totalPages}} 
+  (Showing {{getStartEntry()}} - {{getEndEntry()}} of {{filteredUsers.length}} entries)
 </div>
