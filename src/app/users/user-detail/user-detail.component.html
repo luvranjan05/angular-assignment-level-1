@@ -1,0 +1,59 @@
+<div *ngIf="loading" class="loading">Loading...</div>
+
+<div *ngIf="!loading && user" class="user-detail">
+  <h2>Details: {{ user.first_name }} {{ user.last_name }}</h2>
+  
+  <div class="detail-grid">
+    <div class="detail-item">
+      <span class="label">First Name:</span>
+      <span class="value">{{ user.first_name }}</span>
+    </div>
+    
+    <div class="detail-item">
+      <span class="label">Last Name:</span>
+      <span class="value">{{ user.last_name }}</span>
+    </div>
+    
+    <div class="detail-item">
+      <span class="label">Company:</span>
+      <span class="value">{{ user.company_name }}</span>
+    </div>
+    
+    <div class="detail-item">
+      <span class="label">City:</span>
+      <span class="value">{{ user.city }}</span>
+    </div>
+    
+    <div class="detail-item">
+      <span class="label">State:</span>
+      <span class="value">{{ user.state }}</span>
+    </div>
+    
+    <div class="detail-item">
+      <span class="label">Zip:</span>
+      <span class="value">{{ user.zip }}</span>
+    </div>
+    
+    <div class="detail-item">
+      <span class="label">Email:</span>
+      <span class="value">{{ user.email }}</span>
+    </div>
+    
+    <div class="detail-item">
+      <span class="label">Web:</span>
+      <span class="value"><a [href]="user.web" target="_blank">{{ user.web }}</a></span>
+    </div>
+    
+    <div class="detail-item">
+      <span class="label">Age:</span>
+      <span class="value">{{ user.age }}</span>
+    </div>
+  </div>
+
+  <button class="back-button" routerLink="/users">⬅ Back to Users</button>
+</div>
+
+<div *ngIf="!loading && !user" class="not-found">
+  <h2>User not found</h2>
+  <button class="back-button" routerLink="/users">⬅ Back to Users</button>
+</div>
